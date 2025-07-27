@@ -70,9 +70,30 @@ const todo = require("../models/todoSchema")
     res.status(500).json({ message: 'Server error' })
   }
 }
- const deleteTodo = (req, res) => {
-  // Logic to delete a todo
-  res.status(200).json({ message: 'Todo deleted' });
+ const deleteTodo = async(req, res) => {
+   try {
+     const { id } = req.params;
+     const userId = req.user._id;
+
+     // gettin todo to update
+     const todoItem = await todo.findById(id)
+     // Check if the todo exists and belongs to the logged-in user
+     if (!todoItem) {
+       return res.status(404).json({ message: 'Todo not found' });
+     }
+
+     if (todoItem.user.toString() !== userId.toString()) {
+       return res.status(403).json({ message: 'Unauthorized to update this todo' });
+     }
+
+     const updatedTodo = await todo.findByIdAndDelete(id );
+
+     res.status(200).json({ message: 'Todo deleted successfully', updatedTodo });
+
+   } catch (error) {
+     console.log(error)
+     res.status(500).json({ message: 'Server error' })
+   }
 }
 
 
