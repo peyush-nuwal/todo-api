@@ -5,7 +5,7 @@ const verifyUser = require('../middleware/authMiddleware');
 
 
 router.get('/', verifyUser, getTodos);
-router.post('/create', verifyUser, createTodo);
+router.post('/', verifyUser, createTodo);
 router.put('/update/:id' ,verifyUser, updateTodo);
 router.delete('/delete/:id' ,verifyUser,  deleteTodo);
 

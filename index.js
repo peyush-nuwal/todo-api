@@ -5,7 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 require("dotenv").config();
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT|| 3000;
 app.use(express.json());
 app.use(cookieParser());
 connectToDatabase()
@@ -18,6 +18,6 @@ app.get("/", (req, res) => {
 app.use("/api/todos", todoRoutes )
 app.use("/api/auth", authRoutes )
 
-app.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
 })
